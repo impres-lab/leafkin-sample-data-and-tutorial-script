@@ -2,7 +2,7 @@
 #' -----------------------
 #' 
 #' This script demoes the functionality of the leafkin package, published in:
-#' PUBLICATION INFO HERE
+#' CURRENT PUBLICATION
 #' 
 #' leafkin is a library which allows the user to easily perform the data
 #' analysis involved in a kinematic anlaysis. leakin is published through the 
@@ -12,7 +12,7 @@
 #' of the leafkin package.
 #' 
 #' The example datasets come from the following publication:
-#' PUBLICATION INFO HERE
+#' Bertels et al., under review
 #' 
 # Script strucuture ----
 #' ---------------------
@@ -53,8 +53,8 @@
 #' Therefor, we must install the devtools library first. Since we will also use
 #' functions from the tidyverse library collection, we will also install the
 #' tidyverse libraries.
-install.packages(c("tidyverse", "devtools"))
-devtools::install_github("impres-lab/leafkin")  
+install.packages(c("tidyverse", "devtools", "Rtools"))
+devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools, but should install
 
 # 0.2 Load libraries
 library("leafkin")
@@ -374,4 +374,182 @@ all_LER_tidy %>%
   geom_line()
 # Of course, much more complicated plots are possible, but out of the scope of
 # this tutorial.
+
+# 4.B Recreate plot for average cell lengths ----
+#'-----------------------------------------------
+
+# SE function
+error_function <- function(data) {
+  number_of_data <- length(data)
+  if (number_of_data > 2) {
+    SE_mean = sd(data, na.rm = TRUE)/sqrt(sum(!is.na(data)))
+  } else {
+    SE_mean = NA
+  }
+  return(SE_mean)
+}
+
+# Function to extract letters
+letter_function <- function(x) {
+  return(sub("^([[:alpha:]]*).*", "\\1", x))
+}
+
+# Add treatments to fitted_cell_lengths
+fitted_cell_lengths$treatment <- letter_function(fitted_cell_lengths$plant_id)
+fitted_cell_lengths$treatment[fitted_cell_lengths$treatment == "C"] <- "Control"
+fitted_cell_lengths$treatment[fitted_cell_lengths$treatment == "M"] <- "Mild"
+fitted_cell_lengths$treatment[fitted_cell_lengths$treatment == "S"] <- "Severe"
+
+
+cell_lenghts_mean_SE <- fitted_cell_lengths %>%
+  group_by(treatment, position) %>% 
+  summarise(meanAmount = mean(cell_length, na.rm = TRUE), 
+            SE_mean = error_function(cell_length))
+
+# **** Set graph parameters
+# Choose size of lines
+line_size <- 0.3
+geom_line_line_size <- 0.3
+# Point size
+point_size <- 0.75
+stroke_size <- 0.5
+# Choose size of text
+text_size <- 10
+
+# Y-min / max
+x_min <- 0
+x_max <- 10
+y_min <- 0
+y_max <- 150
+
+# labels
+x_label <- "Distance from the base of the leaf (cm)"
+#y_label <- expression(paste("Average cell size (µm)"))
+y_label <- expression(atop("Cell length", paste("[µm]"))) # for right label
+
+# Error bars width
+error_bar_width <- 0.05
+error_bar_line_size <- 0.3
+
+# Possition dodge value
+pos_dodge_val <- 0.03
+
+# Colors
+# Treatment
+# Gray scale
+color_control <- "black"   #"gray75"
+color_mild <- "black" # "gray50"
+color_severe <- "black"
+# Shapes
+shape_control <- 8   # star
+shape_mild <- 1  # empty circle
+shape_severe <- 19   # full circle
+# Linetype
+linetype_control <- "solid"
+linetype_mild <- "solid"
+linetype_severe <- "solid"
+
+
+# **** Make the graph
+graph <- cell_lenghts_mean_SE %>% 
+  # make the plot
+  ggplot(aes(group = treatment, 
+             x = position, 
+             y = meanAmount, 
+             ymin = meanAmount - SE_mean, 
+             ymax = meanAmount + SE_mean)) +
+  # add lines
+  geom_line(aes(linetype = cell_lenghts_mean_SE$treatment),
+            size = geom_line_line_size) +
+  # add points:
+  geom_point(aes(colour = cell_lenghts_mean_SE$treatment,
+                 shape = cell_lenghts_mean_SE$treatment),
+             alpha = 1,
+             size = point_size,
+             stroke = stroke_size) +
+  # Fix line types:
+  scale_linetype_manual(name = "Treatment",
+                        values = c("Control" = linetype_control,
+                                   "Mild" = linetype_mild,
+                                   "Severe" = linetype_severe)) +
+  # Fix treatment colors
+  scale_color_manual(name = "Treatment", #cell_lenghts_mean_SE$Three_replicates,
+                     values = c("Control" = color_control,
+                                "Mild" = color_mild,
+                                "Severe" = color_severe)) +
+  # Fix treatment shapes:
+  scale_shape_manual(name = "Treatment", #cell_lenghts_mean_SE$Treatment,
+                     values = c("Control" = shape_control,
+                                "Mild" = shape_mild,
+                                "Severe" = shape_severe)) +
+  # add errorbars
+  geom_errorbar(aes(colour = treatment),
+                size = error_bar_line_size,
+                width = error_bar_width,
+                na.rm = TRUE) +
+  # Make sure the x-axis has a nice an even distribution of cm values
+  scale_x_continuous(limits = c(x_min, x_max),
+                     breaks = 0:10,
+                     expand = expansion(mult = c(0, 0.05))) + # get zero on y-axis level
+  scale_y_continuous(limits=c(y_min, y_max),
+                     breaks = c(0,25,50,75,100,125,150),
+                     expand = expansion(mult = c(0, 0.05))) + # get zero on x-axis level
+  # Set labels
+  labs(y = y_label, x = x_label) + # when you want a title, add: title = title_label
+  # Make sure title is in the middle, if there is a title
+  theme(plot.title = element_text(hjust = 0.5)) +
+  # # Make a plot for each mineral separate
+  # facet_grid(mineral~., scales = "free") +
+  # Set theme to classic
+  theme_classic() +
+  # change text size of figure
+  theme(text = element_text(size = text_size)) +
+  # change axis line thickness
+  theme(axis.line = element_line(colour = "black", size = line_size)) +
+  # change thickness of ticks on axis
+  theme(axis.ticks = element_line(colour = "black", size = line_size)) +
+  # make all text black
+  theme(axis.text = element_text(colour = "black")) +
+  # make full square around graph
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = line_size))
+graph
+
+
+# Save plot
+plot_name = "cell_length_plot"
+plot_width = 15.9  #A4 width = 21 cm / 15.9 
+plot_height = 6 #A4 height = 29.7 cm / 24.6 
+plot_units = "cm"
+plot_dpi = 300 #320 is retina dpi. 300 would be print dpi
+# change line and text size at graph section
+
+# Folder and filename
+folder = "images"
+dir.create(folder)
+plot_device = "tiff"
+file_name = paste(paste(paste(folder, "/", sep = ""), paste(plot_name, plot_width, plot_height, plot_dpi, paste("textsize", text_size, sep = ""), sep = "_"), sep = ""), plot_device, sep = ".")
+
+# Save the plot
+ggsave(plot = graph,
+       file = file_name,
+       device = plot_device,
+       width = plot_width,
+       height = plot_height,
+       units = plot_units,
+       dpi = plot_dpi)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
