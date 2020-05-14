@@ -4,7 +4,7 @@
 #' This script demoes the functionality of the leafkin package, published in:
 #' CURRENT PUBLICATION
 #' 
-#' leafkin is a library which allows the user to easily perform the data
+#' leafkin is a package which allows the user to easily perform the data
 #' analysis involved in a kinematic anlaysis. leakin is published through the 
 #' impres-lab GitHub leakin repository.
 #' 
@@ -29,6 +29,7 @@
 #' 3.D. Perform final data analysis 
 #' 4. Some extra functionalities
 #' 4.A Extra functionalities of calculate_LER
+#' 4.B Recreate plot for average cell lengths
 
 #' Note: 
 #' -----
@@ -48,11 +49,12 @@
 # For a more in depth explanation, please start at:
 # 1. Install leafkin and the tidyverse packages
 
-# 0.1 Install the leafkin library grom the impres-lab GitHub leafkin repository.
-#' We will use the install_github function from the devtools library.
-#' Therefor, we must install the devtools library first. Since we will also use
-#' functions from the tidyverse library collection, we will also install the
-#' tidyverse libraries.
+# 0.1 Install the leafkin package grom the impres-lab GitHub leafkin repository.
+#' We will use the install_github function from the devtools package. Therefor,
+#' we must install the devtools package first. The Rtools package assists in
+#' building the package on your computer. Since we will also use functions from
+#' the tidyverse package collection, we will also install the tidyverse
+#' libraries.
 install.packages(c("tidyverse", "devtools", "Rtools"))
 devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools, but should install
 
@@ -120,30 +122,31 @@ write_tsv(final_kinematic_analysis, "kinematic_analysis_results.txt")
 
 # 1. Install leafkin and the tidyverse packages----
 #'-------------------------------------------------
-# We will use the install_github function from the devtools library.
-# Therefor, we must install the devtools library first. Since we will also use
-# functions from the tidyverse library collection, we will also install the
-# tidyverse libraries.
-install.packages(c("tidyverse", "devtools"))
+#' We will use the install_github function from the devtools package. Therefor,
+#' we must install the devtools package first. The Rtools package assists in
+#' building the package on your computer. Since we will also use functions from
+#' the tidyverse package collection, we will also install the tidyverse
+#' libraries.
+install.packages(c("tidyverse", "devtools", "Rtools"))
 devtools::install_github("impres-lab/leafkin")
 
 
 # 2. Load the libraries which this script uses (leafkin and tidyverse) ----
 #'-------------------------------------------------------------------------
-# In step 1, you have installed the libraries on your computer. Here, in step 3,
+# In step 1, you have installed the packages on your computer. Here, in step 2,
 # you will load the required libraries in the current R-session. We will load
-# the leafkin library itself, which will allow us to perform the kinematic
+# the leafkin package itself, which will allow us to perform the kinematic
 # analysis. Next, we will load the tidyverse package, which will load some
 # functions which we will use to make some plots of our own and read in the
 # datasets.
 
-# Load the leafkin library:
+# Load the leafkin package:
 library("leafkin")
-# Load the tidyverse library:
+# Load the tidyverse package:
 library("tidyverse")
 
 # leafkin help files can be consulted when interested:
-# Running the line below, will open the help file of leafkin in the help tab of Rstudio.
+# Running the line below, will open the help file of leafkin in the help tab of RStudio.
 ?leafkin
 
 # 3. Performing the kinematic analysis ----
