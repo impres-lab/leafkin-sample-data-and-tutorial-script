@@ -5,14 +5,14 @@
 #' CURRENT PUBLICATION
 #' 
 #' leafkin is a package which allows the user to easily perform the data
-#' analysis involved in a kinematic anlaysis. leakin is published through the 
-#' impres-lab GitHub leakin repository.
+#' analysis involved in a kinematic anlaysis. leafkin is published through the 
+#' IMPRES-lab GitHub leafkin repository.
 #' 
 #' For an in depth description of the functions, please refer to the publication
 #' of the leafkin package.
 #' 
 #' The example datasets come from the following publication:
-#' Bertels et al., under review
+#' Bertels et al., under review.
 #' 
 # Script strucuture ----
 #' ---------------------
@@ -34,7 +34,7 @@
 #' Note: 
 #' -----
 #' You can skip step 1 and 2 (0.1 from quick start) if you have the most recent
-#' script and required packages already installed on your computer.
+#' leafkin package and required packages already installed on your computer.
 
 
 #'##############################################################################
@@ -49,13 +49,22 @@
 # For a more in depth explanation, please start at:
 # 1. Install leafkin and the tidyverse packages
 
-# 0.1 Install the leafkin package grom the impres-lab GitHub leafkin repository.
+# 0.1 Install the leafkin package grom the IMPRES-lab GitHub leafkin repository.
 #' We will use the install_github function from the devtools package. Therefor,
 #' we must install the devtools package first. The Rtools package assists in
-#' building the package on your computer. Since we will also use functions from
-#' the tidyverse package collection, we will also install the tidyverse
-#' libraries.
+#' building the package on your computer, but is not  mandotory (in some cases,
+#' it will not install, but that should not be a problem). Since we will also
+#' use functions from the tidyverse package collection, we will also install the
+#' tidyverse package (https://www.tidyverse.org/).
 install.packages(c("tidyverse", "devtools", "Rtools"))
+
+#' During installation, you will be asked whether or not to install/update all 
+#' packages which leafkin uses. During your first try, select: 1. All.
+#' When asked whether you want to compile uncompiled versions, most stable here 
+#' is to select: no.
+#' When a package fails to update, stopping leafkin from installation, run the 
+#' installation line again. When asked whether or not to install/update the 
+#' remaining packages, just hit ENTER, skipping the update.
 devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools, but should install
 
 # 0.2 Load libraries
@@ -89,7 +98,7 @@ result_LER_means <- calculate_LER(leaf_length_data = leaf_length_measurements,
 view(result_LER_means)
 
 # 0.4.2 Evaluate cell length fits and store bandwidths
-#' A pdf file with the cell length fits will be created in the work directory.
+#' A pdf file with the cell length fits will be created in the working directory.
 bw_tibble <- get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_measurements,
                                                 interval_in_cm = 0.1, 
                                                 output_bw_tibble = TRUE) 
@@ -124,11 +133,21 @@ write_tsv(final_kinematic_analysis, "kinematic_analysis_results.txt")
 #'-------------------------------------------------
 #' We will use the install_github function from the devtools package. Therefor,
 #' we must install the devtools package first. The Rtools package assists in
-#' building the package on your computer. Since we will also use functions from
-#' the tidyverse package collection, we will also install the tidyverse
-#' libraries.
+#' building the package on your computer, but is not  mandotory (in some cases,
+#' it will not install, but that should not be a problem). Since we will also
+#' use functions from the tidyverse package collection, we will also install the
+#' tidyverse package (https://www.tidyverse.org/).
 install.packages(c("tidyverse", "devtools", "Rtools"))
-devtools::install_github("impres-lab/leafkin")
+
+#' During installation, you will be asked whether or not to install/update all 
+#' packages which leafkin uses. During your first try, select: 1. All.
+#' When asked whether you want to compile uncompiled versions, most stable here 
+#' is to select: no.
+#' When a package fails to update, stopping leafkin from installation, run the 
+#' installation line again. When asked whether or not to install/update the 
+#' remaining packages, just hit ENTER, skipping the update.
+devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools, but should install
+
 
 
 # 2. Load the libraries which this script uses (leafkin and tidyverse) ----
@@ -136,9 +155,8 @@ devtools::install_github("impres-lab/leafkin")
 # In step 1, you have installed the packages on your computer. Here, in step 2,
 # you will load the required libraries in the current R-session. We will load
 # the leafkin package itself, which will allow us to perform the kinematic
-# analysis. Next, we will load the tidyverse package, which will load some
-# functions which we will use to make some plots of our own and read in the
-# datasets.
+# analysis. Next, we will load the tidyverse package, which will load functions
+# that we will use to make some plots of our own and read in the datasets.
 
 # Load the leafkin package:
 library("leafkin")
@@ -161,12 +179,13 @@ library("tidyverse")
 # Next, we run the calculate_LER function to calculate the LERs.
 
 # Remark: 
-# Note that file paths are operating system specific. Normally, the file.path function
-# will create the right path to the example file and the read_tsv function should be able
-# to use this path on both Windows and Mac OS.
+# Note that file paths are operating system specific. Normally, the file.path
+# function will create the right path to the example file and the read_tsv
+# function should be able to use this path on both Windows and Mac OS.
 #
-# If you kept the structure of the folders within the zipped folder in tact,
-# the following line of code will create the right file path for you.
+# If you kept the structure of the folders within the leafkin-sample-data-and
+# -tutorial-script folder in tact, the following line of code will create the
+# right file path for you.
 
 # Create the path to the leaf length measurements file:
 leaf_length_measurements_path <- file.path(getwd(), 
@@ -179,7 +198,7 @@ head(leaf_length_measurements, 5)
 
 # Calculate LERs:
 # As described in the article, the calculate_LER function has three parameters:
-# LER_data = here we put the variable name which contains our leaf length measurements
+# leaf_length_data = here we put the variable name which contains our leaf length measurements
 # n_LER_for_mean = here we indicate how many LERs we want to use to calculate the mean
 # output = here we indicate that we want the function to output the mean LER of each plant
 
@@ -194,15 +213,15 @@ view(result_LER_means)
 # 3.B. Fit cell lengths and plot the fits to evaluate cell length fit ----
 #'------------------------------------------------------------------------
 # The next step is to use our cell length measurements to obtain all fitted cell
-# lengths.  Before we extract these fitted cell lengths, we must first evaluate
+# lengths. Before we extract these fitted cell lengths, we must first evaluate
 # the quality of the fit using the get_pdf_with_cell_length_fit_plots function.
 
 # To fit the measured cell lengths, we again need the path to file which
 # contains these measurements. 
 
-# If you again kept the structure of the folders within the zipped folder in 
-# tact, the following line of code will create the right file path for you.
-
+# If you kept the structure of the folders within the leafkin-sample-data-and
+# -tutorial-script folder in tact, the following line of code will create the
+# right file path for you.
 cell_length_measurements_path <- file.path(getwd(), 
                                            "data files",
                                            "cell_length_measurements_micrometre.txt")
@@ -241,10 +260,10 @@ get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_measurements,
 # 1, the fit will follow the pattern stricter, while values larger than 1 will
 # results in an more smooth fit.
 
-# We can choose to have a MORE strict fit by multiplying the bandwidth by e.g. 0.33
+# We can choose to have a MORE strict fit by multiplying the bandwidth by e.g. 0.3
 get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_measurements, 
                                    interval_in_cm = 0.1, # we want cell lengths to be estimated every 0.1 cm
-                                   bw_multiplier = 0.33) # MULTIPLY BANDWIDTH BY 0.33
+                                   bw_multiplier = 0.3) # MULTIPLY BANDWIDTH BY 0.3
 # We can choose to have a LESS strict fit by multiplying the bandwidth by e.g. 3
 get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_measurements, 
                                    interval_in_cm = 0.1, # we want cell lengths to be estimated every 0.1 cm
@@ -253,13 +272,15 @@ get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_measurements,
 
 # Lastly, there is one more thing we need to check:
 # Were all cell length profiles fitted ?
-#
-# Sometimes, insuffucient data is available for bandwidth calculation. This will
-# result in empty plots, but also in missing bars in the bandwidth barplot at
-# the end of the pdf. In that case, you would want to use an alternative
-# bandwidth. A good alternative is to take the mean of the successfully
-# calculated bandwidths. To extract the calculated bandwidths, you can set the
-# output_bw_tibble parameter to TRUE. A pdf will still be created.
+
+# Sometimes, insuffucient data is available for bandwidth calculation and the
+# function will generate a warning message, indicating that for X number of
+# plants, the bandwidth was not calcualted. In the pdf file, this will result in
+# plots of cell length data without a fit, but also in missing bars in the
+# bandwidth barplot at the end of the pdf. In that case, you would want to use
+# an alternative bandwidth. A good alternative is to take the mean of the
+# successfully calculated bandwidths. To extract the calculated bandwidths, you
+# can set the output_bw_tibble parameter to TRUE. A pdf will still be created.
 
 # In the following line of code, we will store the returned bandwidths in
 # bw_tibble.
@@ -268,18 +289,18 @@ bw_tibble <- get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_m
                                                 output_bw_tibble = TRUE) # return all bandwidths
 # Now, bw_tibble contains all calcuted bandwidths. 
 view(bw_tibble)
-# The following code also checks whether or not there are missing there are
-# missing bandwidths (returns TRUE if there are missing bandwidths).
+# The following code also checks whether or not there are missing bandwidths in
+# bw_tibble (returns TRUE if there are missing bandwidths).
 anyNA(bw_tibble$collected_bandwidths)
 
 
 # 3.C. Extract fitted cell lengths ----
 #'-------------------------------------
 # When you have had a look a the plots and if needed, selected a pleasing
-# bw_multiplier (if needed), you can extract all cell lengths for every interval
-# position. If some plants failed to have their bandwidth caculated, you can
-# also use the mean of the succesfully calculated bandwidths in the
-# alternative_bw parameter.
+# bw_multiplier, you can extract all cell lengths for every interval position.
+# If some plants failed to have their bandwidth caculated, you can also use the
+# mean of the succesfully calculated bandwidths here in the alternative_bw
+# argument.
 
 # To use the cell lengths in the kinematic_anlaysis funtions, they have to be in
 # the tidy format. Therefore, the tidy_cell_lengths parameter is set to TRUE.
@@ -300,9 +321,9 @@ view(fitted_cell_lengths)
 # once and return the results in a tibble.
 
 # For this, it needs three datasets:
-# - the mean leaf elongation rates
+# - the mean leaf elongation rates in a tidy format
 # - the fitted cell lengths in a tidy format
-# - meristem sizes
+# - meristem sizes in a tidy format
 
 # We have already calculated the mean leaf elongation rates and stored them in
 # result_LER_means
