@@ -51,21 +51,20 @@
 
 # 0.1 Install the leafkin package grom the IMPRES-lab GitHub leafkin repository.
 #' We will use the install_github function from the devtools package. Therefor,
-#' we must install the devtools package first. The Rtools package assists in
-#' building the package on your computer, but is not  mandotory (in some cases,
-#' it will not install, but that should not be a problem). Since we will also
-#' use functions from the tidyverse package collection, we will also install the
-#' tidyverse package (https://www.tidyverse.org/).
-install.packages(c("tidyverse", "devtools", "Rtools"))
+#' we must install the devtools package first. Since we will also use functions
+#' from the tidyverse package collection, we will also install the tidyverse
+#' package (https://www.tidyverse.org/).
+install.packages(c("tidyverse", "devtools"))
 
-#' During installation, you will be asked whether or not to install/update all 
-#' packages which leafkin uses. During your first try, select: 1. All.
-#' When asked whether you want to compile uncompiled versions, most stable here 
-#' is to select: no.
-#' When a package fails to update, stopping leafkin from installation, run the 
-#' installation line again. When asked whether or not to install/update the 
-#' remaining packages, just hit ENTER, skipping the update.
-devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools, but should install
+# Up next, we can install leafkin. During its installation, you might be asked
+# whether or not to install/update all packages which leafkin uses. During your
+# first installation try, select: 1. All by typing 1 in the console and pressing
+# ENTER. When asked whether you want to compile uncompiled versions, most stable
+# here is to select: no by typing no in the console and pressing ENTER. When a
+# package fails to update, it will stop the leafkin installation. Just run the
+# installation line again. When you are then asked again whether or not to
+# install/update the remaining packages, just hit ENTER, skipping the update.
+devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools when Rtools is not installed, but should install
 
 # 0.2 Load libraries
 library("leafkin")
@@ -91,7 +90,7 @@ mersitem_length_measurements_path <- file.path(getwd(),
 meristem_size <- read_tsv(mersitem_length_measurements_path)
 
 # 0.4 Perform kinematic analysis
-# 0.4.1 Leaf elongation rate
+# 0.4.1 Average leaf elongation rates of each plant
 result_LER_means <- calculate_LER(leaf_length_data = leaf_length_measurements,
                                   n_LER_for_mean = 2,
                                   output = "means")
@@ -100,14 +99,16 @@ view(result_LER_means)
 # 0.4.2 Evaluate cell length fits and store bandwidths
 #' A pdf file with the cell length fits will be created in the working directory.
 bw_tibble <- get_pdf_with_cell_length_fit_plots(cell_length_data = cell_length_measurements,
-                                                interval_in_cm = 0.1, 
+                                                interval_in_cm = 0.1,
+                                                bw_multiplier = 1,
                                                 output_bw_tibble = TRUE) 
 
 # 0.4.3 Obtain fitted cell lengths.
 fitted_cell_lengths <- get_all_fitted_cell_lengths(cell_length_data = cell_length_measurements, 
                                                    interval_in_cm = 0.1, 
                                                    bw_multiplier = 1, 
-                                                   alternative_bw = mean(bw_tibble$collected_bandwidths, na.nm = TRUE), 
+                                                   alternative_bw = mean(bw_tibble$collected_bandwidths, 
+                                                                         na.nm = TRUE), 
                                                    tidy_cell_lengths = TRUE) 
 view(fitted_cell_lengths)
 
@@ -152,11 +153,11 @@ devtools::install_github("impres-lab/leafkin")  # could give a warning concernin
 
 # 2. Load the libraries which this script uses (leafkin and tidyverse) ----
 #'-------------------------------------------------------------------------
-# In step 1, you have installed the packages on your computer. Here, in step 2,
-# you will load the required libraries in the current R-session. We will load
-# the leafkin package itself, which will allow us to perform the kinematic
-# analysis. Next, we will load the tidyverse package, which will load functions
-# that we will use to make some plots of our own and read in the datasets.
+# Now that you have installed leafkin and tidyverse, you need to load these
+# libraries in the current R-session. We will load the leafkin package itself,
+# which will allow us to perform the kinematic analysis. Next, we will load the
+# tidyverse package, which will load functions that we will use to make some
+# plots of our own and read in the datasets.
 
 # Load the leafkin package:
 library("leafkin")
@@ -402,7 +403,7 @@ all_LER_tidy %>%
 # 4.B Recreate plot for average cell lengths ----
 #'-----------------------------------------------
 
-# SE function
+# SE function: a function to calculate the SE when data has more then two points
 error_function <- function(data) {
   number_of_data <- length(data)
   if (number_of_data > 2) {
@@ -413,7 +414,7 @@ error_function <- function(data) {
   return(SE_mean)
 }
 
-# Function to extract letters
+# Function to extract letters, which we use to extract the treatment letters
 letter_function <- function(x) {
   return(sub("^([[:alpha:]]*).*", "\\1", x))
 }
@@ -424,7 +425,7 @@ fitted_cell_lengths$treatment[fitted_cell_lengths$treatment == "C"] <- "Control"
 fitted_cell_lengths$treatment[fitted_cell_lengths$treatment == "M"] <- "Mild"
 fitted_cell_lengths$treatment[fitted_cell_lengths$treatment == "S"] <- "Severe"
 
-
+# Calculate the mean cell lenghts and their standard error
 cell_lenghts_mean_SE <- fitted_cell_lengths %>%
   group_by(treatment, position) %>% 
   summarise(meanAmount = mean(cell_length, na.rm = TRUE), 
@@ -455,15 +456,12 @@ y_label <- expression(atop("Cell length", paste("[µm]"))) # for right label
 error_bar_width <- 0.05
 error_bar_line_size <- 0.3
 
-# Possition dodge value
-pos_dodge_val <- 0.03
-
 # Colors
 # Treatment
 # Gray scale
-color_control <- "black"   #"gray75"
-color_mild <- "black" # "gray50"
-color_severe <- "black"
+color_control <- "black"   
+color_mild <- "blue" #
+color_severe <- "red"
 # Shapes
 shape_control <- 8   # star
 shape_mild <- 1  # empty circle
@@ -483,11 +481,16 @@ graph <- cell_lenghts_mean_SE %>%
              ymin = meanAmount - SE_mean, 
              ymax = meanAmount + SE_mean)) +
   # add lines
-  geom_line(aes(linetype = cell_lenghts_mean_SE$treatment),
+  geom_line(aes(linetype = treatment),
             size = geom_line_line_size) +
+  # add errorbars
+  geom_errorbar(aes(colour = treatment),
+                size = error_bar_line_size,
+                width = error_bar_width,
+                na.rm = TRUE) +
   # add points:
-  geom_point(aes(colour = cell_lenghts_mean_SE$treatment,
-                 shape = cell_lenghts_mean_SE$treatment),
+  geom_point(aes(colour = treatment,
+                 shape = treatment),
              alpha = 1,
              size = point_size,
              stroke = stroke_size) +
@@ -506,11 +509,6 @@ graph <- cell_lenghts_mean_SE %>%
                      values = c("Control" = shape_control,
                                 "Mild" = shape_mild,
                                 "Severe" = shape_severe)) +
-  # add errorbars
-  geom_errorbar(aes(colour = treatment),
-                size = error_bar_line_size,
-                width = error_bar_width,
-                na.rm = TRUE) +
   # Make sure the x-axis has a nice an even distribution of cm values
   scale_x_continuous(limits = c(x_min, x_max),
                      breaks = 0:10,
