@@ -50,7 +50,7 @@
 # 1. Install leafkin and the tidyverse packages
 
 # 0.1 Install the leafkin package grom the IMPRES-lab GitHub leafkin repository.
-#' We will use the install_github function from the devtools package. Therefor,
+#' We will use the install_github function from the devtools package. Therefore,
 #' we must install the devtools package first. Since we will also use functions
 #' from the tidyverse package collection, we will also install the tidyverse
 #' package (https://www.tidyverse.org/).
@@ -72,20 +72,17 @@ library("tidyverse")
 
 # 0.3 Load required data into R
 #' Leaf length data
-leaf_length_measurements_path <- file.path(getwd(), 
-                                           "data files",
+leaf_length_measurements_path <- file.path("data files",
                                            "growth_measurements_millimetre.txt")
 leaf_length_measurements <- read_tsv(leaf_length_measurements_path)
 
 #' Cell length data
-cell_length_measurements_path <- file.path(getwd(), 
-                                           "data files",
+cell_length_measurements_path <- file.path("data files",
                                            "cell_length_measurements_micrometre.txt")
 cell_length_measurements <- read_tsv(cell_length_measurements_path)
 
 #' Meristem size data
-mersitem_length_measurements_path <- file.path(getwd(), 
-                                               "data files",
+mersitem_length_measurements_path <- file.path("data files",
                                                "meristem_size_micrometre.txt")
 meristem_size <- read_tsv(mersitem_length_measurements_path)
 
@@ -189,8 +186,7 @@ library("tidyverse")
 # right file path for you.
 
 # Create the path to the leaf length measurements file:
-leaf_length_measurements_path <- file.path(getwd(), 
-                                           "data files",
+leaf_length_measurements_path <- file.path("data files",
                                            "growth_measurements_millimetre.txt")
 # Read the leaf length data file
 leaf_length_measurements <- read_tsv(leaf_length_measurements_path)
@@ -223,8 +219,7 @@ view(result_LER_means)
 # If you kept the structure of the folders within the leafkin-sample-data-and
 # -tutorial-script folder in tact, the following line of code will create the
 # right file path for you.
-cell_length_measurements_path <- file.path(getwd(), 
-                                           "data files",
+cell_length_measurements_path <- file.path("data files",
                                            "cell_length_measurements_micrometre.txt")
 
 # Read the cell length data file
@@ -336,8 +331,7 @@ view(fitted_cell_lengths)
 # We will now create the path to the meristem size file.
 # Again, if you kept the structure of the folders within the zipped folder in 
 # tact, the following line of code will create the right file path for you.
-meristem_length_measurements_path <- file.path(getwd(), 
-                                               "data files",
+meristem_length_measurements_path <- file.path("data files",
                                                "meristem_size_micrometre.txt")
 
 # Read the meristem length data file
