@@ -56,14 +56,19 @@
 #' package (https://www.tidyverse.org/).
 install.packages(c("tidyverse", "devtools"))
 
-# Up next, we can install leafkin. During its installation, you might be asked
-# whether or not to install/update all packages which leafkin uses. During your
-# first installation try, select: 1. All by typing 1 in the console and pressing
-# ENTER. When asked whether you want to compile uncompiled versions, most stable
-# here is to select: no by typing no in the console and pressing ENTER. When a
-# package fails to update, it will stop the leafkin installation. Just run the
-# installation line again. When you are then asked again whether or not to
-# install/update the remaining packages, just hit ENTER, skipping the update.
+#' Windows users will have a cleaner installation with Rtools40 installed.
+#' This software can be downloaded for free from:
+#' https://cran.r-project.org/bin/windows/Rtools/
+
+#' Up next, we can install leafkin. During its installation, you might be asked
+#' whether or not to install/update all packages which leafkin uses. During your
+#' first installation try, select: 1. All by typing 1 in the console and
+#' pressing ENTER. When asked whether you want to compile uncompiled versions,
+#' most stable here is to select: no by typing no in the console and pressing
+#' ENTER. When a package fails to update, it will stop the leafkin installation.
+#' Just run the installation line again. When you are then asked again whether
+#' or not to install/update the remaining packages, just hit ENTER, skipping the
+#' update.
 devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools when Rtools is not installed, but should install
 
 # 0.2 Load libraries
@@ -129,22 +134,26 @@ write_tsv(final_kinematic_analysis, "kinematic_analysis_results.txt")
 
 # 1. Install leafkin and the tidyverse packages----
 #'-------------------------------------------------
-#' We will use the install_github function from the devtools package. Therefor,
-#' we must install the devtools package first. The Rtools package assists in
-#' building the package on your computer, but is not  mandotory (in some cases,
-#' it will not install, but that should not be a problem). Since we will also
-#' use functions from the tidyverse package collection, we will also install the
-#' tidyverse package (https://www.tidyverse.org/).
-install.packages(c("tidyverse", "devtools", "Rtools"))
+#' We will use the install_github function from the devtools package. Therefore,
+#' we must install the devtools package first. Since we will also use functions
+#' from the tidyverse package collection, we will also install the tidyverse
+#' package (https://www.tidyverse.org/).
+install.packages(c("tidyverse", "devtools"))
 
-#' During installation, you will be asked whether or not to install/update all 
-#' packages which leafkin uses. During your first try, select: 1. All.
-#' When asked whether you want to compile uncompiled versions, most stable here 
-#' is to select: no.
-#' When a package fails to update, stopping leafkin from installation, run the 
-#' installation line again. When asked whether or not to install/update the 
-#' remaining packages, just hit ENTER, skipping the update.
-devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools, but should install
+#' Windows users will have a cleaner installation with Rtools40 installed.
+#' This software can be downloaded for free from:
+#' https://cran.r-project.org/bin/windows/Rtools/
+
+#' Up next, we can install leafkin. During its installation, you might be asked
+#' whether or not to install/update all packages which leafkin uses. During your
+#' first installation try, select: 1. All by typing 1 in the console and
+#' pressing ENTER. When asked whether you want to compile uncompiled versions,
+#' most stable here is to select: no by typing no in the console and pressing
+#' ENTER. When a package fails to update, it will stop the leafkin installation.
+#' Just run the installation line again. When you are then asked again whether
+#' or not to install/update the remaining packages, just hit ENTER, skipping the
+#' update.
+devtools::install_github("impres-lab/leafkin")  # could give a warning concerning Rtools when Rtools is not installed, but should install
 
 
 
