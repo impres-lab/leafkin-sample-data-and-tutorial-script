@@ -1,20 +1,18 @@
-# leafkin demo script ----
+# leafkin tutorial script
+# Author: Jonas Bertels
+# Last revision: 2020-08-11
 #' -----------------------
 #' 
-#' This script demoes the functionality of the leafkin package, published in:
-#' CURRENT PUBLICATION
+#' This script demoes the functionality of the leafkin package
 #' 
 #' leafkin is a package which allows the user to easily perform the data
 #' analysis involved in a kinematic anlaysis. leafkin is published through the 
 #' IMPRES-lab GitHub leafkin repository.
 #' 
 #' For an in depth description of the functions, please refer to the publication
-#' of the leafkin package.
+#' of the leafkin package and/or the user manual (Supplemental File 1).
 #' 
-#' The example datasets come from the following publication:
-#' Bertels et al., under review.
-#' 
-# Script strucuture ----
+# Script structure ----
 #' ---------------------
 #' 
 #' This script has following structure:
@@ -31,12 +29,6 @@
 #' 4.A Extra functionalities of calculate_LER
 #' 4.B Recreate plot for average cell lengths
 
-#' Note: 
-#' -----
-#' You can skip step 1 and 2 (0.1 from quick start) if you have the most recent
-#' leafkin package and required packages already installed on your computer.
-
-
 #'##############################################################################
 #'##############################################################################
 #'##############################################################################
@@ -44,12 +36,12 @@
 # 0. Quick start ----
 #'-------------------
 # In the quick start section, a limited amount of information is given. This
-# section however cleary demonstrates how a small set of functions can perform
+# section however clearly demonstrates how a small set of functions can perform
 # an entire kinematic analysis.
 # For a more in depth explanation, please start at:
 # 1. Install leafkin and the tidyverse packages
 
-# 0.1 Install the leafkin package grom the IMPRES-lab GitHub leafkin repository.
+# 0.1 Install the leafkin package from the IMPRES-lab GitHub leafkin repository.
 #' We will use the install_github function from the devtools package. Therefore,
 #' we must install the devtools package first. Since we will also use functions
 #' from the tidyverse package collection, we will also install the tidyverse
@@ -114,8 +106,8 @@ fitted_cell_lengths <- get_all_fitted_cell_lengths(cell_length_data = cell_lengt
                                                    tidy_cell_lengths = TRUE) 
 view(fitted_cell_lengths)
 
-# 0.4.4 Perform kinematic analysis
-#' Remaining kinematics calculations, all at once.
+# 0.4.4 Perform kinematic analysis calculations
+#' final_kinematic_analysis performs all kinematics calculations at once.
 final_kinematic_analysis <- kinematic_analysis(LER_means = result_LER_means, 
                                                tidy_cell_lengths = fitted_cell_lengths,
                                                meristem_size_micrometre = meristem_size)
@@ -130,7 +122,7 @@ write_tsv(final_kinematic_analysis, "kinematic_analysis_results.txt")
 #'##############################################################################
 #'##############################################################################
 
-# Detailed explanation of the fuctions and their posibilities.----
+# Detailed explanation of the functions and their posibilities.----
 
 # 1. Install leafkin and the tidyverse packages----
 #'-------------------------------------------------
@@ -176,13 +168,13 @@ library("tidyverse")
 
 # 3. Performing the kinematic analysis ----
 #'-----------------------------------------
-# Now, we are all set to perfom the kinematic analysis in R.
+# Now, we are all set to perform the kinematic analysis in R.
 
 # 3.A. Calculating LER ----
 #'-------------------------
 # The first step is to calculate the leaf elongation rates (LERs).
 # For this, we will need our leaf length measurements data.
-# First, will will create a file path which tells R where to find these data.
+# First, we will create a file path which tells R where to find these data.
 # Next, we run the calculate_LER function to calculate the LERs.
 
 # Remark: 
@@ -191,7 +183,7 @@ library("tidyverse")
 # function should be able to use this path on both Windows and Mac OS.
 #
 # If you kept the structure of the folders within the leafkin-sample-data-and
-# -tutorial-script folder in tact, the following line of code will create the
+# -tutorial-script folder intact, the following line of code will create the
 # right file path for you.
 
 # Create the path to the leaf length measurements file:
@@ -226,7 +218,7 @@ view(result_LER_means)
 # contains these measurements. 
 
 # If you kept the structure of the folders within the leafkin-sample-data-and
-# -tutorial-script folder in tact, the following line of code will create the
+# -tutorial-script folder intact, the following line of code will create the
 # right file path for you.
 cell_length_measurements_path <- file.path("data files",
                                            "cell_length_measurements_micrometre.txt")
@@ -503,12 +495,12 @@ graph <- cell_lenghts_mean_SE %>%
                                    "Mild" = linetype_mild,
                                    "Severe" = linetype_severe)) +
   # Fix treatment colors
-  scale_color_manual(name = "Treatment", #cell_lenghts_mean_SE$Three_replicates,
+  scale_color_manual(name = "Treatment",
                      values = c("Control" = color_control,
                                 "Mild" = color_mild,
                                 "Severe" = color_severe)) +
   # Fix treatment shapes:
-  scale_shape_manual(name = "Treatment", #cell_lenghts_mean_SE$Treatment,
+  scale_shape_manual(name = "Treatment", 
                      values = c("Control" = shape_control,
                                 "Mild" = shape_mild,
                                 "Severe" = shape_severe)) +
@@ -520,7 +512,7 @@ graph <- cell_lenghts_mean_SE %>%
                      breaks = c(0,25,50,75,100,125,150),
                      expand = expansion(mult = c(0, 0.05))) + # get zero on x-axis level
   # Set labels
-  labs(y = y_label, x = x_label) + # when you want a title, add: title = title_label
+  labs(y = y_label, x = x_label) + 
   # Make sure title is in the middle, if there is a title
   theme(plot.title = element_text(hjust = 0.5)) +
   # # Make a plot for each mineral separate
