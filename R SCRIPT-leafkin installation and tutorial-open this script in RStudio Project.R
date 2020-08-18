@@ -1,7 +1,7 @@
 # leafkin tutorial script
 # Author: Jonas Bertels
-# Last revision: 2020-08-11
-#' -----------------------
+# Last revision: 2020-08-18
+#' ------------------------
 #' 
 #' This script demoes the functionality of the leafkin package
 #' 
@@ -19,7 +19,7 @@
 #' 
 #' 0. Quick start
 #' 1. Install leafkin and the tidyverse packages
-#' 2. Loading the libraries which this script uses (leafkin and tidyverse)
+#' 2. Load the libraries which this script uses (leafkin and tidyverse)
 #' 3. Performing the kinematic analysis
 #' 3.A. Calculating leaf elongation rates (LERs)
 #' 3.B. Fit cell lengths and plot the fits to evaluate cell length fit
@@ -170,8 +170,8 @@ library("tidyverse")
 #'-----------------------------------------
 # Now, we are all set to perform the kinematic analysis in R.
 
-# 3.A. Calculating LER ----
-#'-------------------------
+# 3.A. Calculating leaf elongation rates (LERs) ----
+#'--------------------------------------------------
 # The first step is to calculate the leaf elongation rates (LERs).
 # For this, we will need our leaf length measurements data.
 # First, we will create a file path which tells R where to find these data.
@@ -444,8 +444,7 @@ y_max <- 150
 
 # labels
 x_label <- "Distance from the base of the leaf (cm)"
-#y_label <- expression(paste("Average cell size (µm)"))
-y_label <- expression(atop("Cell length", paste("[µm]"))) # for right label
+y_label <- expression(atop("Cell length", paste("[µm]"))) 
 
 # Error bars width
 error_bar_width <- 0.05
